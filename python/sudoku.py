@@ -162,15 +162,12 @@ def draw_board(board):
         pygame.draw.line(screen, BLACK, (0, i * CELL_SIZE), (WINDOW_SIZE, i * CELL_SIZE), thickness)
 
 def draw_buttons():
-    pygame.draw.rect(screen, GRAY, (0, WINDOW_SIZE, WINDOW_SIZE // 3, BUTTON_HEIGHT))
-    pygame.draw.rect(screen, GRAY, (WINDOW_SIZE // 3, WINDOW_SIZE, WINDOW_SIZE // 3, BUTTON_HEIGHT))
-    pygame.draw.rect(screen, GRAY, (2 * WINDOW_SIZE // 3, WINDOW_SIZE, WINDOW_SIZE // 3, BUTTON_HEIGHT))
+    pygame.draw.rect(screen, GRAY, (0, WINDOW_SIZE, WINDOW_SIZE // 2, BUTTON_HEIGHT))
+    pygame.draw.rect(screen, GRAY, (WINDOW_SIZE // 2, WINDOW_SIZE, WINDOW_SIZE // 2, BUTTON_HEIGHT))
     solve_text = button_font.render("Solve", True, BLACK)
-    reset_text = button_font.render("Reset", True, BLACK)
     new_text = button_font.render("New", True, BLACK)
-    screen.blit(solve_text, (WINDOW_SIZE // 6 - 20, WINDOW_SIZE + 15))
-    screen.blit(reset_text, (WINDOW_SIZE // 2 - 20, WINDOW_SIZE + 15))
-    screen.blit(new_text, (5 * WINDOW_SIZE // 6 - 20, WINDOW_SIZE + 15))
+    screen.blit(solve_text, (WINDOW_SIZE // 4 - 20, WINDOW_SIZE + 15))
+    screen.blit(new_text, (3 * WINDOW_SIZE // 4 - 20, WINDOW_SIZE + 15))
 
 def draw_message(message):
     if message:
@@ -178,7 +175,7 @@ def draw_message(message):
         screen.blit(text, (WINDOW_SIZE//2 - 70, WINDOW_SIZE + 15))
 
 # Main function
-def main():
+if __name__ == "__main__":
     board = generate_random_board()
     message = ""  # Thêm biến message
     running = True
@@ -193,7 +190,7 @@ def main():
             if event.type == pygame.MOUSEBUTTONDOWN:
                 x, y = pygame.mouse.get_pos()
                 if y > WINDOW_SIZE:
-                    if x < WINDOW_SIZE // 3:
+                    if x < WINDOW_SIZE // 2:
                         # Solve button
                         temp_board = [row[:] for row in board]  # Tạo bản sao
                         if backtracking(temp_board):
@@ -201,10 +198,6 @@ def main():
                             message = ""
                         else:
                             message = "Không có cách giải"
-                    elif x < 2 * WINDOW_SIZE // 3:
-                        # Reset button
-                        board = [[0 for _ in range(GRID_SIZE)] for _ in range(GRID_SIZE)]
-                        message = ""
                     else:
                         # New button
                         board = generate_random_board()
@@ -212,5 +205,3 @@ def main():
         pygame.display.flip()
     pygame.quit()
 
-if __name__ == "__main__":
-    main()
